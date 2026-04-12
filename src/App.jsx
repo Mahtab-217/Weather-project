@@ -12,10 +12,19 @@ export default function App(){
     }
     getWeatherData()
   },[]);
+  if(!vlaue){
+    return (
+      <h1 className="text-3xl font-bold text-red-800 text-center">
+        Please Wait a Minute
+      </h1>
+    )
+  }
   return (
-    <>
+    <div className="w-full h-screen flex justify-center items-center">
+      <div className="w-1/2 h-fit p-5 border rounded-md">
     <h1>Here is the weather status of Ghazni for today</h1>
-   {value.weather[0].main==="Clear" && <Sun/>}
-    </>
+   {value.weather[0].main==="Clear"?( <Sun/>): ""}
+   </div>
+    </div>
   )
 }
