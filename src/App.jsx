@@ -5,7 +5,7 @@ export default function App(){
  const [value, setValue]= useState();
   useEffect(()=>{ 
      async function getWeatherData() {
-     const malomat= await fetch("https://api.openweathermap.org/data/2.5/weather?q=Ghazni&appid=684418efa9274f3ad6491868b0271123");
+     const malomat= await fetch("https://api.openweathermap.org/data/2.5/weather?q=Kabul&units=metric&appid=684418efa9274f3ad6491868b0271123");
       const responce = await malomat.json(); 
       setValue(responce);
        
@@ -30,6 +30,28 @@ export default function App(){
    value.weather[0].main==="Rain"?(<CloudRain size={42} className="text-yellow-600"/>):
    value.weather[0].main==="Snow"?(<Snowflake size={42} className="text-yellow-600"/>):("")
    }
+   {/* temprature and humidity */}
+   <div className="flex w-full justify-between items-center">
+    <p className="flex gap-1.5">
+      <span>Temprature: </span>
+      <p>{value.main.temp}</p>
+    </p>
+    <p className="flex gap-1.5">
+      <span>Humidity:</span>
+      <p>{value.main.humidity}</p>
+    </p>
+   </div>
+
+<div className="flex w-full justify-between items-center">
+  <p>
+    <span>Sunrise</span>
+  </p>
+
+  <p>
+    <span>Sunset</span>
+  </p>
+</div>
+
    </div>
     </div>
   )
