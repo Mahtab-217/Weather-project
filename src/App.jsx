@@ -49,13 +49,13 @@ export default function App(){
     <div className="w-full h-screen flex justify-center flex-col space-y-3 bg-stone-200 items-center">
       <div className="gap-2 flex">
       <input type="text" className="border rounded-md   w-full " placeholder="Search any city" />
-      <button onClick={handleClicked} className="py-1 px-3 bg-green-700 text-white rounded-md hover:bg-green-800">Search</button>
+      <button  className="py-1 px-2 bg-green-700 text-white rounded-md hover:bg-green-800 ">Search</button>
       </div>
       <div className="w-1/2 h-fit bg-white shadow-[2px_4px_15px_gray] p-5 border rounded-md">
     <h1 className="text-center ">{value.name} City</h1>
     <div className="flex justify-center items-center w-full">
    {value.weather[0].main==="Clear" ? (<Sun size={42} className="text-yellow-600"/>):
-   value.weather[0].main==="Clouds" ?(<Cloud size={42} className="" />):
+   value.weather[0].main==="Clouds" ?(<Cloud size={42} className="bg-stone-300 bg-transparent bg-clip-border" />):
    value.weather[0].main==="Thunderstorm"?(<CloudSun size={42} className="text-yellow-600"/>):
    value.weather[0].main==="Drizzle"?(<CloudDrizzle size={42} className="text-yellow-600"/>):
    value.weather[0].main==="Rain"?(<CloudRain size={42} className="text-yellow-600"/>):
