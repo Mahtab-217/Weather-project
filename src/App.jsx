@@ -36,9 +36,12 @@ export default function App(){
     getWeatherData()
   },[]);
   if(!value){
+    function handleClicked(){
+      
+    }
     return (
-      <h1 className="text-3xl font-bold text-red-800 text-center">
-        Please Wait a Minute
+      <h1 className="text-2xl font-bold text-red-800 text-center">
+        Please Wait a Minute ....
       </h1>
     )
   }
@@ -46,7 +49,7 @@ export default function App(){
     <div className="w-full h-screen flex justify-center flex-col space-y-3 bg-stone-200 items-center">
       <div className="gap-2 flex">
       <input type="text" className="border rounded-md   w-full " placeholder="Search any city" />
-      <button className="py-1 px-3 bg-green-700 text-white rounded-md hover:bg-green-800">Search</button>
+      <button onClick={handleClicked} className="py-1 px-3 bg-green-700 text-white rounded-md hover:bg-green-800">Search</button>
       </div>
       <div className="w-1/2 h-fit bg-white shadow-[2px_4px_15px_gray] p-5 border rounded-md">
     <h1 className="text-center ">{value.name} City</h1>
