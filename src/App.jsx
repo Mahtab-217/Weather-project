@@ -12,6 +12,12 @@ const [isButtonClicked, setIsButtonClicked]=useState(false);
  const [sunsetHour, setSunsetHour]=useState("");
  const [sunsetMinutes, setSunsetMinute]=useState("");
  const [sunsetSeconds, setSunsetSeconds]=useState("");
+
+ function handleClicked(){
+       setIsButtonClicked(!isButtonClicked);
+    }
+
+
   useEffect(()=>{ 
      async function getWeatherData() {
      const malomat= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=684418efa9274f3ad6491868b0271123`);
@@ -38,9 +44,7 @@ const [isButtonClicked, setIsButtonClicked]=useState(false);
     getWeatherData()
   },[isButtonClicked]);
   if(!value){
-    function handleClicked(){
-       setIsButtonClicked(!isButtonClicked);
-    }
+   
     return (
       <h1 className="text-2xl font-bold text-red-800 text-center">
         Please Wait a Minute ....
@@ -52,7 +56,7 @@ const [isButtonClicked, setIsButtonClicked]=useState(false);
       <div className="gap-2 flex">
       <input value={cityName} onChange={(e)=>setCityName(e.target.value)} type="text" className="border rounded-md   w-full " placeholder="Search any city" />
       <button 
-      onClick={()=>handleClicked}
+      onClick={handleClicked}
        className="py-1 px-2 bg-green-700 text-white rounded-md hover:bg-green-800 ">Search</button>
       </div>
       <div className="w-1/2 h-fit bg-white shadow-[2px_4px_15px_gray] p-5 border rounded-md">
