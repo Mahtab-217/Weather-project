@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 
 export default function App(){
  const [value, setValue]= useState();
+ const [cityName, setCityName]=useState("kabul");
+const [isButtonClicked, setIsButtonClicked]=useState(false);
  const [hour,setHour]= useState("");
  const [Minute,setMinute]= useState("");
  const [Seconds,setSeconds]= useState("");
@@ -12,7 +14,7 @@ export default function App(){
  const [sunsetSeconds, setSunsetSeconds]=useState("");
   useEffect(()=>{ 
      async function getWeatherData() {
-     const malomat= await fetch("https://api.openweathermap.org/data/2.5/weather?q=Ghazni&units=metric&appid=684418efa9274f3ad6491868b0271123");
+     const malomat= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=684418efa9274f3ad6491868b0271123`);
       const responce = await malomat.json(); 
       setValue(responce);
      const sunRiseDate= new Date(responce.sys.sunrise * 1000);
@@ -34,10 +36,10 @@ export default function App(){
 
     }
     getWeatherData()
-  },[]);
+  },[isButtonClicked]);
   if(!value){
     function handleClicked(){
-      
+       setIsButtonClicked(!isButtonClicked);
     }
     return (
       <h1 className="text-2xl font-bold text-red-800 text-center">
@@ -48,14 +50,16 @@ export default function App(){
   return (
     <div className="w-full h-screen flex justify-center flex-col space-y-3 bg-stone-200 items-center">
       <div className="gap-2 flex">
-      <input type="text" className="border rounded-md   w-full " placeholder="Search any city" />
-      <button  className="py-1 px-2 bg-green-700 text-white rounded-md hover:bg-green-800 ">Search</button>
+      <input value={cityName} onChange={(e)=>setCityName(e.target.value)} type="text" className="border rounded-md   w-full " placeholder="Search any city" />
+      <button 
+      onClick={()=>handleClicked}
+       className="py-1 px-2 bg-green-700 text-white rounded-md hover:bg-green-800 ">Search</button>
       </div>
       <div className="w-1/2 h-fit bg-white shadow-[2px_4px_15px_gray] p-5 border rounded-md">
     <h1 className="text-center ">{value.name} City</h1>
     <div className="flex justify-center items-center w-full">
    {value.weather[0].main==="Clear" ? (<Sun size={42} className="text-yellow-600"/>):
-   value.weather[0].main==="Clouds" ?(<Cloud size={42} className="bg-stone-300 bg-transparent bg-clip-border" />):
+   value.weather[0].main==="Clouds" ?(<Cloud size={42} className="bg-stone-300  bg-clip-border" />):
    value.weather[0].main==="Thunderstorm"?(<CloudSun size={42} className="text-yellow-600"/>):
    value.weather[0].main==="Drizzle"?(<CloudDrizzle size={42} className="text-yellow-600"/>):
    value.weather[0].main==="Rain"?(<CloudRain size={42} className="text-yellow-600"/>):
