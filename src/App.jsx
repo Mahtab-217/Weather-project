@@ -1,100 +1,26 @@
-import { Cloud, CloudDrizzle, CloudRain, CloudSun, Moon, Snowflake, Sun } from "lucide-react";
-import { useEffect, useState } from "react"
+import { createContext, useContext, useReducer } from "react"
+import A from "./A"
 
+ 
+  export const DataContext=createContext();
 export default function App(){
- const [value, setValue]= useState();
- const [cityName, setCityName]=useState("kabul");
-const [isButtonClicked, setIsButtonClicked]=useState(false);
- const [hour,setHour]= useState("");
- const [Minute,setMinute]= useState("");
- const [Seconds,setSeconds]= useState("");
-
- const [sunsetHour, setSunsetHour]=useState("");
- const [sunsetMinutes, setSunsetMinute]=useState("");
- const [sunsetSeconds, setSunsetSeconds]=useState("");
-
- function handleClicked(){
-       setIsButtonClicked(!isButtonClicked);
+  function reducer(state, func){
+    if(func.type==="change"){
+      return (state=func.payload);
     }
 
-
-  useEffect(()=>{ 
-     async function getWeatherData() {
-     const malomat= await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=684418efa9274f3ad6491868b0271123`);
-      const responce = await malomat.json(); 
-      setValue(responce);
-     const sunRiseDate= new Date(responce.sys.sunrise * 1000);
-     const sunRiseHour= sunRiseDate.getHours();
-       const sunRiseMinute = sunRiseDate.getMinutes();
-       const sunRiseSeconds = sunRiseDate.getSeconds();
-      setHour(sunRiseHour);
-       setMinute(sunRiseMinute);
-       setSeconds(sunRiseSeconds);
-
-      //  sunsetDate
-      const sunSetDate= new Date(responce.sys.sunset * 1000);
-      const sunSetHour = sunSetDate.getHours();
-      const sunSetMinute = sunSetDate.getMinutes();
-      const sunSetSeconds = sunSetDate.getSeconds();
-      setSunsetHour(sunSetHour)
-      setSunsetMinute(sunSetMinute)
-      setSunsetSeconds(sunSetSeconds)
-
-    }
-    getWeatherData()
-  },[isButtonClicked]);
-  if(!value){
-   
-    return (
-      <h1 className="text-2xl font-bold text-red-800 text-center">
-        Please Wait a Minute ....
-      </h1>
-    )
   }
+const [value, func]=useReducer(useReducer, "Hello");
+ 
   return (
-    <div className="w-full h-screen flex justify-center flex-col space-y-3 bg-stone-200 items-center">
-      <div className="gap-2 flex">
-      <input value={cityName} onChange={(e)=>setCityName(e.target.value)} type="text" className="border rounded-md   w-full " placeholder="Search any city" />
-      <button 
-      onClick={handleClicked}
-       className="py-1 px-2 bg-green-700 text-white rounded-md hover:bg-green-800 ">Search</button>
-      </div>
-      <div className="w-1/2 h-fit bg-white shadow-[2px_4px_15px_gray] p-5 border rounded-md">
-    <h1 className="text-center ">{value.name} City</h1>
-    <div className="flex justify-center items-center w-full">
-   {value.weather[0].main==="Clear" ? (<Sun size={42} className="text-yellow-600"/>):
-   value.weather[0].main==="Clouds" ?(<Cloud size={42} className="bg-stone-300  bg-clip-border" />):
-   value.weather[0].main==="Thunderstorm"?(<CloudSun size={42} className="text-yellow-600"/>):
-   value.weather[0].main==="Drizzle"?(<CloudDrizzle size={42} className="text-yellow-600"/>):
-   value.weather[0].main==="Rain"?(<CloudRain size={42} className="text-yellow-600"/>):
-   value.weather[0].main==="Snow"?(<Snowflake size={42} className="text-yellow-600"/>):("")
-   }
-   </div>
-   {/* temprature and humidity */}
-   <div className="flex w-full justify-between items-center">
-    <p className="flex gap-1.5">
-      <span>Temprature: </span>
-      <p>{value.main.temp}</p>
-    </p>
-    <p className="flex gap-1.5">
-      <span>Humidity:</span>
-      <p>{value.main.humidity}</p>
-    </p>
-   </div>
+    <div>
+      <h1>This is the app component</h1>
+      <h1>This is the input value: {value}</h1>
 
-<div className="flex w-full justify-between items-center">
-  <p>
-    <span>Sunrise</span>
-    <span>{hour}:{Minute}:{Seconds}</span>
-  </p>
+      <DataContext.Provider value={{value:value, setValue: func}}>
 
-  <p className="flex w-full justify-between items-center">
-    <span>Sunset:</span>
-    <span>{sunsetHour}:{sunsetMinutes}:{sunsetSeconds}</span>
-  </p>
-</div>
-
-   </div>
+      <A />
+      </DataContext.Provider>
     </div>
   )
 }
